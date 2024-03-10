@@ -56,6 +56,7 @@ def handle_people_id(people_id):
     people = db.session.execute(db.select(People)).scalar()
     response_body['results'] = [row.serialize() for row in people]
     response_body['message'] = 'Metodo GET people for ID'
+    db.session.execute(db.select(People).where(People.id == people_id)).scalar()
     return jsonify(response_body), 200
 
 
@@ -76,6 +77,7 @@ def handle_planet_id(planet_id):
     planet = db.session.execute(db.select(Planets)).scalar()
     response_body['results'] = [row.serialize() for row in planet]
     response_body['message'] = 'Metodo GET planets for ID'
+    db.session.execute(db.select(Planet).where(Planet.id == planet_id)).scalar()
     return jsonify(response_body), 200
 
 
@@ -176,7 +178,7 @@ def add_favorite_people(user_id):
 def remove_favorite_people(user_id, people_id):
     response_body = {}
     # Buscar el planeta favorito en la base de datos
-    favorite = FavoritePlanets.query.filter_by(users_id=user_id, people_id=people_id).first()
+    favorite = FavoritePeople.query.filter_by(users_id=user_id, people_id=people_id).first()
     if favorite:
         # Eliminar el planeta favorito
         db.session.delete(favorite)

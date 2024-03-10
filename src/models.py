@@ -17,8 +17,8 @@ class Users(db.Model):
     def serialize(self):
         # do not serialize the password, its a security breach
         return {"id": self.id,
-                "email": self.email,
-                "pass": self.password}
+                "email": self.email,}
+                
 
 
 # Models People
@@ -69,7 +69,7 @@ class Planets(db.Model):
 class FavoritePlanets(db.Model):
     __tablename__ = 'favorite_planets'
     id = db.Column(db.Integer, primary_key=True)
-    planets_id = db.Column(db.Integer, db.ForeignKey('planets.id'), unique=True, nullable=False)
+    planets_id = db.Column(db.Integer, db.ForeignKey('planets.id'), unique=False, nullable=False)
     users_id = db.Column(db.Integer, db.ForeignKey('users.id'), unique=True, nullable=False)
     user_to = db.relationship('Users', foreign_keys=[users_id])
     planets_to = db.relationship('Planets', foreign_keys=[planets_id])
